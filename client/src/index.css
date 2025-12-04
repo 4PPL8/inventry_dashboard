@@ -103,9 +103,9 @@ body {
 .btn-info,
 .btn-dark,
 .btn {
-  background-color: #000000 !important;
-  border-color: #000000 !important;
-  color: #ffffff !important;
+  background-color: var(--text-primary) !important;
+  border-color: var(--text-primary) !important;
+  color: var(--bg-dark) !important;
   font-weight: 500;
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
@@ -120,9 +120,9 @@ body {
 .btn-info:hover,
 .btn-dark:hover,
 .btn:hover {
-  background-color: #1a1a1a !important;
-  border-color: #1a1a1a !important;
-  color: #ffffff !important;
+  background-color: var(--accent-hover) !important;
+  border-color: var(--accent-hover) !important;
+  color: var(--bg-dark) !important;
   transform: translateY(-1px);
 }
 
@@ -134,9 +134,26 @@ body {
 .btn-info:active,
 .btn-dark:active,
 .btn:active {
-  background-color: #000000 !important;
-  border-color: #000000 !important;
+  background-color: var(--text-primary) !important;
+  border-color: var(--text-primary) !important;
+  color: var(--bg-dark) !important;
   transform: translateY(0);
+}
+
+/* Disabled button state */
+.btn:disabled,
+.btn-primary:disabled,
+.btn-secondary:disabled,
+.btn-success:disabled,
+.btn-warning:disabled,
+.btn-danger:disabled,
+.btn-info:disabled,
+.btn-dark:disabled {
+  background-color: var(--text-secondary) !important;
+  border-color: var(--text-secondary) !important;
+  color: var(--bg-dark) !important;
+  opacity: 0.6 !important;
+  cursor: not-allowed !important;
 }
 
 /* Form Controls */
@@ -155,6 +172,27 @@ body {
   border-color: var(--text-primary) !important;
   color: var(--text-primary) !important;
   box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Placeholder text styling */
+.form-control::placeholder {
+  color: #666666 !important;
+  opacity: 1 !important;
+}
+
+.form-control::-webkit-input-placeholder {
+  color: #666666 !important;
+  opacity: 1 !important;
+}
+
+.form-control::-moz-placeholder {
+  color: #666666 !important;
+  opacity: 1 !important;
+}
+
+.form-control:-ms-input-placeholder {
+  color: #666666 !important;
+  opacity: 1 !important;
 }
 
 /* Remove blue from select options */
@@ -195,21 +233,45 @@ select option:checked {
 .table {
   color: var(--text-primary) !important;
   border-color: var(--border-color) !important;
+  background-color: transparent !important;
 }
 
 .table thead th {
   border-color: var(--border-color) !important;
   color: var(--text-primary) !important;
+  background-color: transparent !important;
   font-weight: 600;
 }
 
 .table tbody td {
   border-color: var(--border-color) !important;
   color: var(--text-primary) !important;
+  background-color: transparent !important;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) td {
+  color: var(--text-primary) !important;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.table-hover tbody tr:hover td {
+  color: var(--text-primary) !important;
+}
+
+.table-bordered {
+  border-color: var(--border-color) !important;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border-color: var(--border-color) !important;
 }
 
 a {

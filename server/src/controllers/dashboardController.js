@@ -62,9 +62,11 @@ exports.getDashboardSummary = async (req, res) => {
         });
 
         const stockChartData = Object.keys(stockByCategory).map(key => ({
-            category: key,
+            name: key,
             quantity: stockByCategory[key]
         }));
+
+
 
         // 5. Revenue Trend (Line Chart) - Last 12 months
         const twelveMonthsAgo = new Date();
