@@ -10,6 +10,8 @@ const Logs = () => {
     const [selectedMonth, setSelectedMonth] = useState(null);
     const [selectedDay, setSelectedDay] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
     useEffect(() => {
         loadYears();
@@ -68,11 +70,11 @@ const Logs = () => {
 
     const handleSearch = async (e) => {
         e.preventDefault();
-        if (!searchQuery.trim()) return loadYears();
+        if (!searchQuery.trim() && !startDate && !endDate) return loadYears();
 
         setLoading(true);
         try {
-            const res = await searchLogs(searchQuery);
+            const res = await searchLogs(searchQuery, startDate, endDate);
             setData(res.data);
             setView('search');
         } catch (err) {
@@ -83,6 +85,8 @@ const Logs = () => {
 
     const resetView = () => {
         setSearchQuery('');
+        setStartDate('');
+        setEndDate('');
         setSelectedYear(null);
         setSelectedMonth(null);
         setSelectedDay(null);
@@ -90,21 +94,49 @@ const Logs = () => {
     };
 
     const renderBreadcrumbs = () => {
-        if (view === 'search') return <Breadcrumb.Item active>Search Results</Breadcrumb.Item>;
+        if (view === 'search') return <Breadcrumb.Item active style={{ color: 'var(--text-primary)' }}>Search Results</Breadcrumb.Item>;
         return (
-            <Breadcrumb>
-                <Breadcrumb.Item onClick={resetView}>Logs</Breadcrumb.Item>
+            <Breadcrumb style={{ '--bs-breadcrumb-divider-color': 'var(--text-secondary)' }}>
+                <Breadcrumb.Item
+                    onClick={resetView}
+                    style={{
+                        cursor: 'pointer',
+                        color: 'var(--text-primary)',
+                        textDecoration: 'none'
+                    }}
+                    className="breadcrumb-custom"
+                >
+                    Logs
+                </Breadcrumb.Item>
                 {selectedYear && (
-                    <Breadcrumb.Item onClick={() => handleYearClick(selectedYear)} active={view === 'months'}>
+                    <Breadcrumb.Item
+                        onClick={() => handleYearClick(selectedYear)}
+                        active={view === 'months'}
+                        style={{
+                            cursor: view === 'months' ? 'default' : 'pointer',
+                            color: 'var(--text-primary)',
+                            textDecoration: 'none'
+                        }}
+                        className="breadcrumb-custom"
+                    >
                         {selectedYear}
                     </Breadcrumb.Item>
                 )}
                 {selectedMonth && (
-                    <Breadcrumb.Item onClick={() => handleMonthClick(selectedMonth)} active={view === 'days'}>
+                    <Breadcrumb.Item
+                        onClick={() => handleMonthClick(selectedMonth)}
+                        active={view === 'days'}
+                        style={{
+                            cursor: view === 'days' ? 'default' : 'pointer',
+                            color: 'var(--text-primary)',
+                            textDecoration: 'none'
+                        }}
+                        className="breadcrumb-custom"
+                    >
                         {new Date(selectedYear, selectedMonth - 1).toLocaleString('default', { month: 'long' })}
                     </Breadcrumb.Item>
                 )}
-                {selectedDay && <Breadcrumb.Item active>{selectedDay}</Breadcrumb.Item>}
+                {selectedDay && <Breadcrumb.Item active style={{ color: 'var(--text-primary)' }}>{selectedDay}</Breadcrumb.Item>}
             </Breadcrumb>
         );
     };
@@ -114,28 +146,87 @@ const Logs = () => {
 
         if (view === 'years') {
             return (
-                <Row>
+                <Row className="g-3">
                     {data.map(year => (
-                        <Col key={year} md={3} className="mb-3">
-                            <Card className="text-center p-4 shadow-sm cursor-pointer" onClick={() => handleYearClick(year)} style={{ cursor: 'pointer' }}>
-                                <h3>{year}</h3>
+                        <Col key={year} xs={6} sm={4} md={3} className="mb-3">
+                            <Card
+                                className="text-center cursor-pointer h-100"
+                                onClick={() => handleYearClick(year)}
+                                style={{
+                                    cursor: 'pointer',
+                                    backgroundColor: 'var(--bg-card)',
+                                    border: 'var(--glass-border)',
+                                    boxShadow: 'var(--card-shadow)',
+                                    borderRadius: '12px',
+                                    padding: '2rem 1rem',
+                                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                                    minHeight: '120px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-4px)';
+                                    e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'var(--card-shadow)';
+                                }}
+                            >
+                                <h3 style={{ color: 'var(--text-primary)', margin: 0, fontSize: '1.75rem' }}>{year}</h3>
                             </Card>
                         </Col>
                     ))}
-                    {data.length === 0 && <p>No logs available.</p>}
+                    {data.length === 0 && <p style={{ color: 'var(--text-secondary)' }}>No logs available.</p>}
                 </Row>
             );
         }
 
         if (view === 'months') {
             return (
-                <Row>
+                <Row className="g-3">
                     {data.map(item => (
-                        <Col key={item._id} md={3} className="mb-3">
-                            <Card className="text-center p-4 shadow-sm cursor-pointer" onClick={() => handleMonthClick(item._id)} style={{ cursor: 'pointer' }}>
-                                <h4>{new Date(selectedYear, item._id - 1).toLocaleString('default', { month: 'long' })}</h4>
-                                <div className="text-muted small">{item.count} Transactions</div>
-                                <div className="text-success small">PKR {item.revenue.toLocaleString()}</div>
+                        <Col key={item._id} xs={6} sm={4} md={3} className="mb-3">
+                            <Card
+                                className="text-center cursor-pointer h-100"
+                                onClick={() => handleMonthClick(item._id)}
+                                style={{
+                                    cursor: 'pointer',
+                                    backgroundColor: 'var(--bg-card)',
+                                    border: 'var(--glass-border)',
+                                    boxShadow: 'var(--card-shadow)',
+                                    borderRadius: '12px',
+                                    padding: '1.5rem 1rem',
+                                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                                    minHeight: '140px',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-4px)';
+                                    e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'var(--card-shadow)';
+                                }}
+                            >
+                                <h4 style={{
+                                    color: 'var(--text-primary)',
+                                    marginBottom: '0.75rem',
+                                    fontSize: '1.25rem',
+                                    whiteSpace: 'nowrap'
+                                }}>
+                                    {new Date(selectedYear, item._id - 1).toLocaleString('default', { month: 'long' })}
+                                </h4>
+                                <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '0.25rem' }}>
+                                    {item.count} Transactions
+                                </div>
+                                <div style={{ color: '#10b981', fontSize: '1rem', fontWeight: '600' }}>
+                                    PKR {item.revenue.toLocaleString()}
+                                </div>
                             </Card>
                         </Col>
                     ))}
@@ -145,13 +236,33 @@ const Logs = () => {
 
         if (view === 'days') {
             return (
-                <Row>
+                <Row className="g-3">
                     {data.map(item => (
-                        <Col key={item._id} md={2} className="mb-3">
-                            <Card className="text-center p-3 shadow-sm cursor-pointer" onClick={() => handleDayClick(item._id)} style={{ cursor: 'pointer' }}>
-                                <h5>Day {item._id}</h5>
-                                <div className="text-muted small">{item.count} Txns</div>
-                                <div className="text-success small">PKR {item.revenue.toLocaleString()}</div>
+                        <Col key={item._id} xs={6} sm={4} md={3} lg={2} className="mb-3">
+                            <Card
+                                className="text-center cursor-pointer h-100"
+                                onClick={() => handleDayClick(item._id)}
+                                style={{
+                                    cursor: 'pointer',
+                                    backgroundColor: 'var(--bg-card)',
+                                    border: 'var(--glass-border)',
+                                    boxShadow: 'var(--card-shadow)',
+                                    borderRadius: '12px',
+                                    padding: '1rem',
+                                    transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-4px)';
+                                    e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'var(--card-shadow)';
+                                }}
+                            >
+                                <h5 style={{ color: 'var(--text-primary)', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Day {item._id}</h5>
+                                <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '0.25rem' }}>{item.count} Txns</div>
+                                <div style={{ color: '#10b981', fontSize: '0.9rem', fontWeight: '600' }}>PKR {item.revenue.toLocaleString()}</div>
                             </Card>
                         </Col>
                     ))}
@@ -177,11 +288,7 @@ const Logs = () => {
                             <tr key={txn._id}>
                                 <td>{new Date(txn.date).toLocaleString()}</td>
                                 <td>
-                                    <Badge bg={
-                                        txn.type === 'sale' ? 'success' :
-                                            txn.type === 'purchase' ? 'primary' :
-                                                'warning'
-                                    }>
+                                    <Badge bg="dark">
                                         {txn.type}
                                     </Badge>
                                 </td>
@@ -208,17 +315,71 @@ const Logs = () => {
 
     return (
         <Container>
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2>Logs</h2>
-                <Form className="d-flex" onSubmit={handleSearch}>
-                    <Form.Control
-                        type="search"
-                        placeholder="Search logs..."
-                        className="me-2"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <Button variant="outline-primary" type="submit">Search</Button>
+            <div className="mb-4">
+                <h2 style={{ marginBottom: '1.5rem' }}>Logs</h2>
+                <Form onSubmit={handleSearch}>
+                    <Row className="g-2 align-items-end">
+                        <Col xs={12} md={4}>
+                            <Form.Group>
+                                <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '0.5rem' }}>Search</Form.Label>
+                                <Form.Control
+                                    type="search"
+                                    placeholder="Search by party, product, notes..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    style={{
+                                        backgroundColor: 'var(--bg-card)',
+                                        border: 'var(--glass-border)',
+                                        color: 'var(--text-primary)'
+                                    }}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col xs={12} sm={6} md={3}>
+                            <Form.Group>
+                                <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '0.5rem' }}>Start Date</Form.Label>
+                                <Form.Control
+                                    type="date"
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                    style={{
+                                        backgroundColor: 'var(--bg-card)',
+                                        border: 'var(--glass-border)',
+                                        color: 'var(--text-primary)'
+                                    }}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col xs={12} sm={6} md={3}>
+                            <Form.Group>
+                                <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '0.5rem' }}>End Date</Form.Label>
+                                <Form.Control
+                                    type="date"
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                    style={{
+                                        backgroundColor: 'var(--bg-card)',
+                                        border: 'var(--glass-border)',
+                                        color: 'var(--text-primary)'
+                                    }}
+                                />
+                            </Form.Group>
+                        </Col>
+                        <Col xs={12} md={2}>
+                            <Button
+                                type="submit"
+                                className="w-100"
+                                style={{
+                                    backgroundColor: 'var(--text-primary)',
+                                    color: 'var(--bg-dark)',
+                                    border: 'none',
+                                    fontWeight: '500'
+                                }}
+                            >
+                                Search
+                            </Button>
+                        </Col>
+                    </Row>
                 </Form>
             </div>
 

@@ -17,6 +17,12 @@ export const getLogsYears = () => api.get('/logs/years');
 export const getLogsMonths = (year) => api.get(`/logs/${year}`);
 export const getLogsDays = (year, month) => api.get(`/logs/${year}/${month}`);
 export const getDayDetails = (year, month, day) => api.get(`/logs/${year}/${month}/${day}`);
-export const searchLogs = (q) => api.get(`/logs/search?q=${q}`);
+export const searchLogs = (q, startDate, endDate) => {
+    const params = new URLSearchParams();
+    if (q) params.append('q', q);
+    if (startDate) params.append('startDate', startDate);
+    if (endDate) params.append('endDate', endDate);
+    return api.get(`/logs/search?${params.toString()}`);
+};
 
 export default api;

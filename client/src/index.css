@@ -1,68 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Default (Dark Mode) - Monochrome */
+  --bg-dark: #000000;
+  --bg-card: #000000;
+  --bg-sidebar: #000000;
+  --text-primary: #ffffff;
+  --text-secondary: #888888;
+  --accent-primary: #ffffff;
+  --accent-hover: #cccccc;
+  --border-color: #333333;
+  --success: #ffffff;
+  --warning: #cccccc;
+  --danger: #ffffff;
+  --info: #eeeeee;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Minimal Shadows & Borders */
+  --glass-bg: #000000;
+  --glass-border: 1px solid #333333;
+  --glass-shadow: none;
+  --card-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Layout */
+  --sidebar-width: 280px;
+  --header-height: 80px;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+[data-theme='light'] {
+  /* Light Mode - Monochrome */
+  --bg-dark: #ffffff;
+  --bg-card: #ffffff;
+  --bg-sidebar: #ffffff;
+  --text-primary: #000000;
+  --text-secondary: #666666;
+  --accent-primary: #000000;
+  --accent-hover: #333333;
+  --border-color: #e5e5e5;
+  --success: #000000;
+  --warning: #333333;
+  --danger: #000000;
+  --info: #111111;
+
+  --glass-bg: #ffffff;
+  --glass-border: 1px solid #f0f0f0;
+  --glass-shadow: none;
+  --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Utility Classes */
+.glass-card {
+  background: var(--bg-card);
+  border: var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(12px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.text-gradient {
+  background: linear-gradient(to right, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Bootstrap Overrides */
+.btn-primary,
+.btn-secondary,
+.btn-success,
+.btn-warning,
+.btn-danger,
+.btn-info,
+.btn-dark,
+.btn {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.btn-primary:hover,
+.btn-secondary:hover,
+.btn-success:hover,
+.btn-warning:hover,
+.btn-danger:hover,
+.btn-info:hover,
+.btn-dark:hover,
+.btn:hover {
+  background-color: #1a1a1a !important;
+  border-color: #1a1a1a !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active,
+.btn-secondary:active,
+.btn-success:active,
+.btn-warning:active,
+.btn-danger:active,
+.btn-info:active,
+.btn-dark:active,
+.btn:active {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  transform: translateY(0);
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+  background-color: var(--bg-card) !important;
+  border: var(--glass-border) !important;
+  color: var(--text-primary) !important;
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--bg-card) !important;
+  border-color: var(--text-primary) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Remove blue from select options */
+.form-select option {
+  background-color: var(--bg-dark) !important;
+  color: var(--text-primary) !important;
+}
+
+.form-select option:hover,
+.form-select option:focus,
+.form-select option:checked {
+  background-color: #1a1a1a !important;
+  color: var(--text-primary) !important;
+}
+
+/* Remove blue highlight from select dropdown */
+select option:checked {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.form-label {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Card Styling */
+.card {
+  background-color: var(--bg-card) !important;
+  border: var(--glass-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--card-shadow) !important;
+}
+
+/* Table Styling */
+.table {
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+.table thead th {
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+  font-weight: 600;
+}
+
+.table tbody td {
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.02) !important;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Breadcrumb Styling - Remove Blue Color */
+.breadcrumb {
+  background-color: transparent;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.breadcrumb-item {
+  color: var(--text-primary);
+}
+
+.breadcrumb-item a,
+.breadcrumb-item.active {
+  color: var(--text-primary) !important;
+  text-decoration: none;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+  color: var(--text-secondary);
+}
+
+.breadcrumb-custom:hover {
+  opacity: 0.7;
+  text-decoration: none !important;
 }

@@ -30,7 +30,6 @@ const Checkout = () => {
         if (!selectedProduct) return;
         const product = products.find(p => p._id === selectedProduct);
 
-        // Check stock
         if (product.quantity < quantity) {
             setMessage(`Insufficient stock! Only ${product.quantity} available.`);
             return;
@@ -83,7 +82,7 @@ const Checkout = () => {
             setCart([]);
             setCustomerName('');
             setDiscount(0);
-            loadProducts(); // Refresh stock
+            loadProducts();
         } catch (err) {
             setMessage('Checkout failed. Please try again.');
         }
@@ -95,17 +94,32 @@ const Checkout = () => {
 
     return (
         <Container>
-            <h2 className="mb-4">Checkout / Point of Sale</h2>
+            <h2 style={{ marginBottom: '2rem', color: 'var(--text-primary)', fontWeight: '600' }}>Checkout / Point of Sale</h2>
             {message && <Alert variant="warning" onClose={() => setMessage(null)} dismissible>{message}</Alert>}
 
-            <Row>
-                <Col md={5}>
-                    <Card className="p-4 shadow-sm mb-4">
-                        <h4>Add Item</h4>
+            <Row className="g-3">
+                <Col md={5} className="d-flex flex-column">
+                    <Card className="mb-3" style={{
+                        backgroundColor: 'var(--bg-card)',
+                        border: 'var(--glass-border)',
+                        borderRadius: '12px',
+                        padding: '1.5rem',
+                        flex: '0 0 auto'
+                    }}>
+                        <h4 style={{ marginBottom: '1.5rem', color: 'var(--text-primary)', fontWeight: '600' }}>Add Item</h4>
                         <Form>
                             <Form.Group className="mb-3">
-                                <Form.Label>Product</Form.Label>
-                                <Form.Select value={selectedProduct} onChange={e => setSelectedProduct(e.target.value)}>
+                                <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: '500' }}>Product</Form.Label>
+                                <Form.Select
+                                    value={selectedProduct}
+                                    onChange={e => setSelectedProduct(e.target.value)}
+                                    style={{
+                                        backgroundColor: 'var(--bg-dark)',
+                                        border: 'var(--glass-border)',
+                                        color: 'var(--text-primary)',
+                                        padding: '0.75rem'
+                                    }}
+                                >
                                     <option value="">Select Product</option>
                                     {products.map(p => (
                                         <option key={p._id} value={p._id} disabled={p.quantity <= 0}>
@@ -115,26 +129,73 @@ const Checkout = () => {
                                 </Form.Select>
                             </Form.Group>
                             <Form.Group className="mb-3">
-                                <Form.Label>Quantity</Form.Label>
-                                <Form.Control type="number" min="1" value={quantity} onChange={e => setQuantity(e.target.value)} />
+                                <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: '500' }}>Quantity</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    min="1"
+                                    value={quantity}
+                                    onChange={e => setQuantity(e.target.value)}
+                                    style={{
+                                        backgroundColor: 'var(--bg-dark)',
+                                        border: 'var(--glass-border)',
+                                        color: 'var(--text-primary)',
+                                        padding: '0.75rem'
+                                    }}
+                                />
                             </Form.Group>
-                            <Button variant="primary" onClick={addToCart} disabled={!selectedProduct}>Add to Cart</Button>
+                            <Button
+                                onClick={addToCart}
+                                disabled={!selectedProduct}
+                                className="w-100"
+                                style={{
+                                    backgroundColor: '#000000',
+                                    color: '#ffffff',
+                                    border: 'none',
+                                    fontWeight: 600,
+                                    padding: '0.75rem',
+                                    borderRadius: '6px'
+                                }}
+                            >
+                                Add to Cart
+                            </Button>
                         </Form>
                     </Card>
 
-                    <Card className="p-4 shadow-sm">
-                        <h4>Customer Details</h4>
+                    <Card style={{
+                        backgroundColor: 'var(--bg-card)',
+                        border: 'var(--glass-border)',
+                        borderRadius: '12px',
+                        padding: '1.5rem',
+                        flex: '1 1 auto'
+                    }}>
+                        <h4 style={{ marginBottom: '1.5rem', color: 'var(--text-primary)', fontWeight: '600' }}>Customer Details</h4>
                         <Form.Group className="mb-3">
-                            <Form.Label>Name (Optional)</Form.Label>
-                            <Form.Control type="text" value={customerName} onChange={e => setCustomerName(e.target.value)} />
+                            <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: '500' }}>Name (Optional)</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={customerName}
+                                onChange={e => setCustomerName(e.target.value)}
+                                placeholder="Enter customer name"
+                                style={{
+                                    backgroundColor: 'var(--bg-dark)',
+                                    border: 'var(--glass-border)',
+                                    color: 'var(--text-primary)',
+                                    padding: '0.75rem'
+                                }}
+                            />
                         </Form.Group>
                     </Card>
                 </Col>
 
-                <Col md={7}>
-                    <Card className="p-4 shadow-sm">
-                        <h4>Cart</h4>
-                        <Table striped bordered hover>
+                <Col md={7} className="d-flex">
+                    <Card className="w-100" style={{
+                        backgroundColor: 'var(--bg-card)',
+                        border: 'var(--glass-border)',
+                        borderRadius: '12px',
+                        padding: '1.5rem'
+                    }}>
+                        <h4 style={{ marginBottom: '1.5rem', color: 'var(--text-primary)', fontWeight: '600' }}>Cart</h4>
+                        <Table striped bordered hover style={{ marginBottom: '1.5rem' }}>
                             <thead>
                                 <tr>
                                     <th>Item</th>
@@ -148,26 +209,84 @@ const Checkout = () => {
                                 {cart.map((item, index) => (
                                     <tr key={index}>
                                         <td>{item.name}</td>
-                                        <td>{item.price}</td>
+                                        <td>PKR {item.price}</td>
                                         <td>{item.quantity}</td>
-                                        <td>{item.total}</td>
-                                        <td><Button variant="danger" size="sm" onClick={() => removeFromCart(index)}>X</Button></td>
+                                        <td>PKR {item.total}</td>
+                                        <td>
+                                            <Button
+                                                size="sm"
+                                                onClick={() => removeFromCart(index)}
+                                                style={{
+                                                    backgroundColor: '#000000',
+                                                    color: '#ffffff',
+                                                    border: 'none',
+                                                    padding: '0.25rem 0.5rem'
+                                                }}
+                                            >
+                                                ×
+                                            </Button>
+                                        </td>
                                     </tr>
                                 ))}
+                                {cart.length === 0 && (
+                                    <tr>
+                                        <td colSpan="5" className="text-center" style={{ padding: '2rem', color: 'var(--text-secondary)' }}>
+                                            No items in cart
+                                        </td>
+                                    </tr>
+                                )}
                             </tbody>
                         </Table>
 
-                        <div className="d-flex justify-content-between align-items-center mt-3">
-                            <h5>Subtotal: PKR {cart.reduce((acc, item) => acc + item.total, 0)}</h5>
-                        </div>
-                        <Form.Group className="mb-3 mt-2">
-                            <Form.Label>Discount</Form.Label>
-                            <Form.Control type="number" value={discount} onChange={e => setDiscount(e.target.value)} />
-                        </Form.Group>
-                        <h3 className="text-end text-success">Total: PKR {calculateTotal()}</h3>
+                        <div style={{
+                            borderTop: '1px solid var(--border-color)',
+                            paddingTop: '1rem',
+                            marginTop: '1rem'
+                        }}>
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                <h5 style={{ color: 'var(--text-primary)', margin: 0 }}>Subtotal:</h5>
+                                <h5 style={{ color: 'var(--text-primary)', margin: 0, fontWeight: '600' }}>PKR {cart.reduce((acc, item) => acc + item.total, 0)}</h5>
+                            </div>
+                            <Form.Group className="mb-3">
+                                <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: '500' }}>Discount</Form.Label>
+                                <Form.Control
+                                    type="number"
+                                    value={discount}
+                                    onChange={e => setDiscount(e.target.value)}
+                                    placeholder="0"
+                                    style={{
+                                        backgroundColor: 'var(--bg-dark)',
+                                        border: 'var(--glass-border)',
+                                        color: 'var(--text-primary)',
+                                        padding: '0.75rem'
+                                    }}
+                                />
+                            </Form.Group>
+                            <div className="d-flex justify-content-between align-items-center mb-4" style={{
+                                borderTop: '2px solid var(--border-color)',
+                                paddingTop: '1rem'
+                            }}>
+                                <h4 style={{ color: 'var(--text-primary)', margin: 0, fontWeight: '700' }}>Total:</h4>
+                                <h4 style={{ color: 'var(--text-primary)', margin: 0, fontWeight: '700' }}>PKR {calculateTotal()}</h4>
+                            </div>
 
-                        <div className="d-grid gap-2 mt-4">
-                            <Button variant="success" size="lg" onClick={handleCheckout} disabled={cart.length === 0}>Complete Sale</Button>
+                            <div className="d-grid gap-2">
+                                <Button
+                                    onClick={handleCheckout}
+                                    disabled={cart.length === 0}
+                                    style={{
+                                        backgroundColor: '#000000',
+                                        color: '#ffffff',
+                                        border: 'none',
+                                        fontWeight: 600,
+                                        fontSize: '1.1rem',
+                                        padding: '1rem',
+                                        borderRadius: '6px'
+                                    }}
+                                >
+                                    Complete Sale
+                                </Button>
+                            </div>
                         </div>
                     </Card>
                 </Col>
@@ -217,8 +336,26 @@ const Checkout = () => {
                     )}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowInvoice(false)}>Close</Button>
-                    <Button variant="primary" onClick={printInvoice}>Print Invoice</Button>
+                    <Button
+                        onClick={() => setShowInvoice(false)}
+                        style={{
+                            backgroundColor: 'transparent',
+                            color: '#000',
+                            border: '1px solid #000'
+                        }}
+                    >
+                        Close
+                    </Button>
+                    <Button
+                        onClick={printInvoice}
+                        style={{
+                            backgroundColor: '#000',
+                            color: '#fff',
+                            border: 'none'
+                        }}
+                    >
+                        Print Invoice
+                    </Button>
                 </Modal.Footer>
             </Modal>
         </Container>

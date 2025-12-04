@@ -107,18 +107,46 @@ exports.getDayDetails = async (req, res) => {
 // @access  Public
 exports.searchLogs = async (req, res) => {
     try {
-        const { q } = req.query;
-        if (!q) return res.json([]);
+        const { q, startDate, endDate } = req.query;
 
-        // Search by partyName, notes, or productName (snapshot)
-        // For product name, we can search 'items.productName'
-        const transactions = await Transaction.find({
-            $or: [
-                { partyName: { $regex: q, $options: 'i' } },
-                { notes: { $regex: q, $options: 'i' } },
-                { 'items.productName': { $regex: q, $options: 'i' } }
-            ]
-        }).sort({ date: -1 });
+        // Build query conditions
+        const conditions = [];
+
+        // Text search conditions
+        if (q && q.trim()) {
+            conditions.push({
+                $or: [
+                    { partyName: { $regex: q, $options: 'i' } },
+                    { notes: { $regex: q, $options: 'i' } },
+                    { 'items.productName': { $regex: q, $options: 'i' } }
+                ]
+            });
+        }
+
+        // Date range conditions
+        if (startDate || endDate) {
+            const dateCondition = {};
+            if (startDate) {
+                dateCondition.$gte = new Date(startDate);
+            }
+            if (endDate) {
+                // Set to end of day
+                const endDateTime = new Date(endDate);
+                endDateTime.setHours(23, 59, 59, 999);
+                dateCondition.$lte = endDateTime;
+            }
+            conditions.push({ date: dateCondition });
+        }
+
+        // If no conditions, return empty array
+        if (conditions.length === 0) {
+            return res.json([]);
+        }
+
+        // Combine all conditions with $and
+        const query = conditions.length > 1 ? { $and: conditions } : conditions[0];
+
+        const transactions = await Transaction.find(query).sort({ date: -1 });
 
         res.json(transactions);
     } catch (error) {

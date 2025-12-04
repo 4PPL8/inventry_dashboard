@@ -25,39 +25,94 @@ const Dashboard = () => {
         }
     };
 
-    if (loading) return <div className="text-center mt-5"><Spinner animation="border" /></div>;
-    if (error) return <Alert variant="danger">{error}</Alert>;
+    if (loading) return (
+        <div className="d-flex justify-content-center align-items-center" style={{ height: '60vh' }}>
+            <Spinner animation="border" variant="secondary" />
+        </div>
+    );
+
+    if (error) return <Alert variant="light" className="border border-danger text-danger">{error}</Alert>;
 
     return (
         <div>
-            <h2 className="mb-4">Dashboard</h2>
-
             {/* KPI Cards */}
-            <Row>
+            <Row className="g-4 mb-5">
                 <Col md={3}>
-                    <StatsCard title="Monthly Revenue" value={data.kpi.monthlyRevenue} color="success" />
+                    <div className="p-4 h-100" style={{
+                        backgroundColor: 'var(--bg-card)',
+                        borderRadius: '12px',
+                        boxShadow: 'var(--card-shadow)',
+                        border: 'var(--glass-border)'
+                    }}>
+                        <StatsCard title="Monthly Revenue" value={data.kpi.monthlyRevenue} />
+                    </div>
                 </Col>
                 <Col md={3}>
-                    <StatsCard title="Monthly Profit" value={data.kpi.monthlyProfit} color="info" />
+                    <div className="p-4 h-100" style={{
+                        backgroundColor: 'var(--bg-card)',
+                        borderRadius: '12px',
+                        boxShadow: 'var(--card-shadow)',
+                        border: 'var(--glass-border)'
+                    }}>
+                        <StatsCard title="Monthly Profit" value={data.kpi.monthlyProfit} />
+                    </div>
                 </Col>
                 <Col md={3}>
-                    <StatsCard title="Monthly Expenses" value={data.kpi.monthlyExpenses} color="warning" />
+                    <div className="p-4 h-100" style={{
+                        backgroundColor: 'var(--bg-card)',
+                        borderRadius: '12px',
+                        boxShadow: 'var(--card-shadow)',
+                        border: 'var(--glass-border)'
+                    }}>
+                        <StatsCard title="Monthly Expenses" value={data.kpi.monthlyExpenses} />
+                    </div>
                 </Col>
                 <Col md={3}>
-                    <StatsCard title="Monthly Loss" value={data.kpi.monthlyLoss} color="danger" />
+                    <div className="p-4 h-100" style={{
+                        backgroundColor: 'var(--bg-card)',
+                        borderRadius: '12px',
+                        boxShadow: 'var(--card-shadow)',
+                        border: 'var(--glass-border)'
+                    }}>
+                        <StatsCard title="Monthly Loss" value={data.kpi.monthlyLoss} />
+                    </div>
                 </Col>
             </Row>
 
             {/* Charts */}
-            <Row className="mt-4">
-                <Col md={8}>
-                    <div className="p-3 bg-white shadow-sm rounded">
-                        <RevenueChart data={data.charts.revenueTrend} />
+            <Row className="g-4 justify-content-center">
+                <Col md={6} className="d-flex justify-content-center">
+                    <div className="p-4 w-100" style={{
+                        backgroundColor: 'var(--bg-card)',
+                        borderRadius: '12px',
+                        boxShadow: 'var(--card-shadow)',
+                        border: 'var(--glass-border)',
+                        height: '350px',
+                        maxWidth: '550px',
+                        display: 'flex',
+                        flexDirection: 'column'
+                    }}>
+                        <h6 className="text-secondary text-uppercase mb-3 text-center" style={{ letterSpacing: '1px', fontSize: '0.8rem' }}>Revenue Overview</h6>
+                        <div style={{ flex: 1, width: '100%', minHeight: 0 }}>
+                            <RevenueChart data={data.charts.revenueTrend} />
+                        </div>
                     </div>
                 </Col>
-                <Col md={4}>
-                    <div className="p-3 bg-white shadow-sm rounded">
-                        <StockChart data={data.charts.stockOverview} />
+                <Col md={6} className="d-flex justify-content-center">
+                    <div className="p-4 w-100" style={{
+                        backgroundColor: 'var(--bg-card)',
+                        borderRadius: '12px',
+                        boxShadow: 'var(--card-shadow)',
+                        border: 'var(--glass-border)',
+                        height: '350px',
+                        maxWidth: '550px',
+                        display: 'flex',
+                        flexDirection: 'column'
+                    }}>
+                        <h6 className="text-secondary text-uppercase mb-3 text-center" style={{ letterSpacing: '1px', fontSize: '0.8rem' }}>Stock Status</h6>
+                        <div style={{ flex: 1, width: '100%', minHeight: 0 }}>
+                            <StockChart data={data.charts.stockOverview} />
+                        </div>
                     </div>
                 </Col>
             </Row>
