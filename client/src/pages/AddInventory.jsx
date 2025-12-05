@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Alert, Row, Col, Card } from 'react-bootstrap';
-import { getProducts, createTransaction, addProduct, updateProduct } from '../services/api';
+import { getProducts, createTransaction, addProduct, updateProduct, getCategories } from '../services/api';
 import { Plus, ShoppingBag, RotateCcw, CornerUpLeft } from 'lucide-react';
 
 const AddInventory = () => {
     const [activeTab, setActiveTab] = useState('add');
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
 
@@ -20,12 +21,22 @@ const AddInventory = () => {
 
     useEffect(() => {
         loadProducts();
+        loadCategories();
     }, []);
 
     const loadProducts = async () => {
         try {
             const res = await getProducts();
             setProducts(res.data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    const loadCategories = async () => {
+        try {
+            const res = await getCategories();
+            setCategories(res.data);
         } catch (err) {
             console.error(err);
         }
@@ -224,13 +235,11 @@ const AddInventory = () => {
                                             fontSize: '0.875rem',
                                             fontWeight: '500',
                                             marginBottom: '0.5rem'
-                                        }}>Category (ID)</Form.Label>
-                                        <Form.Control
-                                            type="text"
+                                        }}>Category</Form.Label>
+                                        <Form.Select
                                             value={newProduct.category}
                                             onChange={e => setNewProduct({ ...newProduct, category: e.target.value })}
                                             required
-                                            placeholder="Enter category ID"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
@@ -238,7 +247,10 @@ const AddInventory = () => {
                                                 padding: '0.75rem 1rem',
                                                 fontSize: '0.95rem'
                                             }}
-                                        />
+                                        >
+                                            <option value="">Select Category</option>
+                                            {categories.map(cat => <option key={cat._id} value={cat._id}>{cat.name}</option>)}
+                                        </Form.Select>
                                     </Form.Group>
                                 </Col>
                             </Row>
