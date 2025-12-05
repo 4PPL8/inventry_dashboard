@@ -3,20 +3,27 @@ import { Row, Col, Spinner, Alert } from 'react-bootstrap';
 import StatsCard from '../components/StatsCard';
 import StockChart from '../components/StockChart';
 import RevenueChart from '../components/RevenueChart';
+import RecentTransactions from '../components/RecentTransactions';
+import DateRangeSelector from '../components/DateRangeSelector';
 import { getDashboardSummary } from '../services/api';
 
 const Dashboard = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [dateRange, setDateRange] = useState(null);
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [dateRange]);
 
     const fetchData = async () => {
         try {
-            const response = await getDashboardSummary();
+            const params = dateRange ? {
+                startDate: dateRange.startDate.toISOString(),
+                endDate: dateRange.endDate.toISOString()
+            } : {};
+            const response = await getDashboardSummary(params);
             setData(response.data);
             setLoading(false);
         } catch (err) {
@@ -34,7 +41,7 @@ const Dashboard = () => {
     if (error) return <Alert variant="light" className="border border-danger text-danger">{error}</Alert>;
 
     return (
-        <div>
+        <div className="page-transition-enter">
             {/* KPI Cards */}
             <Row className="g-4 mb-5">
                 <Col md={3}>
@@ -102,6 +109,19 @@ const Dashboard = () => {
                     </div>
                 </Col>
             </Row>
+
+            {/* Recent Transactions - Full Width */}
+            <div className="mb-5">
+                <RecentTransactions />
+            </div>
+
+            {/* Date Range Selector */}
+            <div className="mb-4 d-flex justify-content-between align-items-center">
+                <h5 style={{ color: 'var(--text-primary)', fontWeight: '600', margin: 0 }}>
+                    Analytics Overview
+                </h5>
+                <DateRangeSelector onDateRangeChange={setDateRange} />
+            </div>
 
             {/* Charts */}
             <Row className="g-4 justify-content-center">

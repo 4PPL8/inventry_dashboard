@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { startLoading, stopLoading } from '../components/LoadingBar';
 
 const api = axios.create({
     baseURL: 'http://localhost:5000/api',
@@ -7,9 +8,33 @@ const api = axios.create({
     }
 });
 
-export const getDashboardSummary = () => api.get('/dashboard/summary');
+// Add request interceptor to start loading bar
+api.interceptors.request.use(
+    (config) => {
+        startLoading();
+        return config;
+    },
+    (error) => {
+        stopLoading();
+        return Promise.reject(error);
+    }
+);
+
+// Add response interceptor to stop loading bar
+api.interceptors.response.use(
+    (response) => {
+        stopLoading();
+        return response;
+    },
+    (error) => {
+        stopLoading();
+        return Promise.reject(error);
+    }
+);
+
+export const getDashboardSummary = (params) => api.get('/dashboard/summary', { params });
 export const getProducts = () => api.get('/products');
-export const getTransactions = () => api.get('/transactions');
+export const getTransactions = (params) => api.get('/transactions', { params });
 export const createTransaction = (data) => api.post('/transactions', data);
 export const addProduct = (data) => api.post('/products', data);
 export const updateProduct = (id, data) => api.put(`/products/${id}`, data);
@@ -24,5 +49,11 @@ export const searchLogs = (q, startDate, endDate) => {
     if (endDate) params.append('endDate', endDate);
     return api.get(`/logs/search?${params.toString()}`);
 };
+
+// Category management endpoints
+export const getCategories = () => api.get('/categories');
+export const createCategory = (data) => api.post('/categories', data);
+export const updateCategory = (id, data) => api.put(`/categories/${id}`, data);
+export const deleteCategory = (id) => api.delete(`/categories/${id}`);
 
 export default api;
