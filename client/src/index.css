@@ -1,50 +1,83 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Default (Dark Mode) - Monochrome */
-  --bg-dark: #000000;
-  --bg-card: #000000;
-  --bg-sidebar: #000000;
-  --text-primary: #ffffff;
-  --text-secondary: #888888;
-  --accent-primary: #ffffff;
-  --accent-hover: #cccccc;
-  --border-color: #333333;
-  --success: #ffffff;
-  --warning: #cccccc;
-  --danger: #ffffff;
-  --info: #eeeeee;
+  /* Default (Dark Mode) - Modern Vibrant */
+  --bg-dark: #0f172a;
+  --bg-card: #1e293b;
+  --bg-sidebar: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --accent-primary: #3b82f6;
+  --accent-hover: #2563eb;
+  --border-color: #334155;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #06b6d4;
 
-  /* Minimal Shadows & Borders */
-  --glass-bg: #000000;
-  --glass-border: 1px solid #333333;
-  --glass-shadow: none;
-  --card-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-info: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  --gradient-card: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+
+  /* Shadows & Borders */
+  --glass-bg: rgba(30, 41, 59, 0.8);
+  --glass-border: 1px solid rgba(148, 163, 184, 0.1);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(148, 163, 184, 0.05);
+  --card-shadow-hover: 0 12px 40px rgba(59, 130, 246, 0.2), 0 0 0 1px rgba(59, 130, 246, 0.1);
 
   /* Layout */
   --sidebar-width: 280px;
   --header-height: 80px;
+
+  /* Spacing Scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
 }
 
 [data-theme='light'] {
-  /* Light Mode - Monochrome */
-  --bg-dark: #ffffff;
+  /* Light Mode - Modern Vibrant */
+  --bg-dark: #f8fafc;
   --bg-card: #ffffff;
   --bg-sidebar: #ffffff;
-  --text-primary: #000000;
-  --text-secondary: #666666;
-  --accent-primary: #000000;
-  --accent-hover: #333333;
-  --border-color: #e5e5e5;
-  --success: #000000;
-  --warning: #333333;
-  --danger: #000000;
-  --info: #111111;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --accent-primary: #3b82f6;
+  --accent-hover: #2563eb;
+  --border-color: #e2e8f0;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #06b6d4;
 
-  --glass-bg: #ffffff;
-  --glass-border: 1px solid #f0f0f0;
-  --glass-shadow: none;
-  --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-info: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+
+  /* Shadows & Borders */
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --glass-border: 1px solid rgba(226, 232, 240, 0.8);
+  --glass-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+  --card-shadow: 0 2px 12px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(226, 232, 240, 0.5);
+  --card-shadow-hover: 0 8px 30px rgba(59, 130, 246, 0.15), 0 0 0 1px rgba(59, 130, 246, 0.2);
 }
 
 body {
@@ -53,11 +86,61 @@ body {
   background-color: var(--bg-dark);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+  }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -65,32 +148,36 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 4px;
+  background: var(--border-color);
+  border-radius: 5px;
+  transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: var(--accent-primary);
 }
 
 /* Utility Classes */
 .glass-card {
   background: var(--bg-card);
   border: var(--glass-border);
-  border-radius: 16px;
-  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow);
   backdrop-filter: blur(12px);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  animation: fadeIn 0.5s ease;
 }
 
 .glass-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
 .text-gradient {
-  background: linear-gradient(to right, #3b82f6, #8b5cf6);
+  background: var(--gradient-primary);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -103,13 +190,14 @@ body {
 .btn-info,
 .btn-dark,
 .btn {
-  background-color: var(--text-primary) !important;
-  border-color: var(--text-primary) !important;
-  color: var(--bg-dark) !important;
+  background: var(--gradient-info) !important;
+  border: none !important;
+  color: #ffffff !important;
   font-weight: 500;
   padding: 0.75rem 1.5rem;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 .btn-primary:hover,
@@ -120,10 +208,10 @@ body {
 .btn-info:hover,
 .btn-dark:hover,
 .btn:hover {
-  background-color: var(--accent-hover) !important;
-  border-color: var(--accent-hover) !important;
-  color: var(--bg-dark) !important;
-  transform: translateY(-1px);
+  background: var(--accent-hover) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 
 .btn-primary:active,
@@ -134,10 +222,21 @@ body {
 .btn-info:active,
 .btn-dark:active,
 .btn:active {
-  background-color: var(--text-primary) !important;
-  border-color: var(--text-primary) !important;
-  color: var(--bg-dark) !important;
-  transform: translateY(0);
+  background: var(--accent-primary) !important;
+  color: #ffffff !important;
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.btn:focus,
+.btn-primary:focus,
+.btn-secondary:focus,
+.btn-success:focus,
+.btn-warning:focus,
+.btn-danger:focus,
+.btn-info:focus,
+.btn-dark:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3) !important;
 }
 
 /* Disabled button state */
@@ -149,11 +248,12 @@ body {
 .btn-danger:disabled,
 .btn-info:disabled,
 .btn-dark:disabled {
-  background-color: var(--text-secondary) !important;
-  border-color: var(--text-secondary) !important;
+  background: var(--text-secondary) !important;
+  border: none !important;
   color: var(--bg-dark) !important;
-  opacity: 0.6 !important;
+  opacity: 0.5 !important;
   cursor: not-allowed !important;
+  transform: none !important;
 }
 
 /* Form Controls */
@@ -162,37 +262,44 @@ body {
   background-color: var(--bg-card) !important;
   border: var(--glass-border) !important;
   color: var(--text-primary) !important;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 0.75rem;
+  transition: all 0.3s ease;
 }
 
 .form-control:focus,
 .form-select:focus {
   background-color: var(--bg-card) !important;
-  border-color: var(--text-primary) !important;
+  border-color: var(--accent-primary) !important;
   color: var(--text-primary) !important;
-  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+  transform: translateY(-1px);
 }
 
 /* Placeholder text styling */
 .form-control::placeholder {
-  color: #666666 !important;
-  opacity: 1 !important;
+  color: var(--text-secondary) !important;
+  opacity: 0.7 !important;
+  transition: opacity 0.3s ease;
+}
+
+.form-control:focus::placeholder {
+  opacity: 0.5 !important;
 }
 
 .form-control::-webkit-input-placeholder {
-  color: #666666 !important;
-  opacity: 1 !important;
+  color: var(--text-secondary) !important;
+  opacity: 0.7 !important;
 }
 
 .form-control::-moz-placeholder {
-  color: #666666 !important;
-  opacity: 1 !important;
+  color: var(--text-secondary) !important;
+  opacity: 0.7 !important;
 }
 
 .form-control:-ms-input-placeholder {
-  color: #666666 !important;
-  opacity: 1 !important;
+  color: var(--text-secondary) !important;
+  opacity: 0.7 !important;
 }
 
 /* Remove blue from select options */
@@ -225,8 +332,13 @@ select option:checked {
 .card {
   background-color: var(--bg-card) !important;
   border: var(--glass-border) !important;
-  border-radius: 12px !important;
+  border-radius: var(--radius-md) !important;
   box-shadow: var(--card-shadow) !important;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--card-shadow-hover) !important;
 }
 
 /* Table Styling */
@@ -241,16 +353,20 @@ select option:checked {
   color: var(--text-primary) !important;
   background-color: transparent !important;
   font-weight: 600;
+  padding: 1rem;
+  transition: all 0.3s ease;
 }
 
 .table tbody td {
   border-color: var(--border-color) !important;
   color: var(--text-primary) !important;
   background-color: transparent !important;
+  padding: 1rem;
+  transition: all 0.3s ease;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: rgba(255, 255, 255, 0.02) !important;
+  background-color: rgba(59, 130, 246, 0.03) !important;
 }
 
 .table-striped tbody tr:nth-of-type(odd) td {
@@ -258,7 +374,9 @@ select option:checked {
 }
 
 .table-hover tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important;
+  background-color: rgba(59, 130, 246, 0.08) !important;
+  transform: scale(1.01);
+  transition: all 0.2s ease;
 }
 
 .table-hover tbody tr:hover td {
@@ -277,6 +395,11 @@ select option:checked {
 a {
   text-decoration: none;
   color: inherit;
+  transition: opacity 0.3s ease;
+}
+
+a:hover {
+  opacity: 0.8;
 }
 
 /* Breadcrumb Styling - Remove Blue Color */
@@ -303,4 +426,108 @@ a {
 .breadcrumb-custom:hover {
   opacity: 0.7;
   text-decoration: none !important;
+}
+
+/* Dropdown Menu Fixes - Force Downward Opening */
+.dropdown-menu,
+.form-select-dropdown,
+select.form-select,
+select.form-control {
+  position: relative !important;
+}
+
+/* Ensure dropdowns always open downward */
+.dropdown-menu {
+  top: 100% !important;
+  bottom: auto !important;
+  transform: none !important;
+  margin-top: 0.125rem !important;
+  z-index: 1050 !important;
+}
+
+/* Fix for Bootstrap form-select dropdowns */
+select.form-select,
+select.form-control {
+  appearance: auto !important;
+  -webkit-appearance: menulist !important;
+  -moz-appearance: menulist !important;
+}
+
+/* Ensure parent containers don't clip dropdowns */
+.container,
+.container-fluid,
+.row,
+.col,
+[class*="col-"] {
+  overflow: visible !important;
+}
+
+/* Specific fix for cards containing dropdowns */
+.card {
+  overflow: visible !important;
+}
+
+.card-body {
+  overflow: visible !important;
+}
+
+/* Fix for modals and popovers */
+.modal-body,
+.popover {
+  overflow: visible !important;
+}
+
+/* Ensure proper stacking context */
+.form-group,
+.mb-3,
+.form-control,
+.form-select {
+  position: relative;
+  z-index: auto;
+}
+
+/* Print Styles - Only show invoice content */
+@media print {
+
+  /* Hide everything by default */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Show only the invoice content */
+  .invoice-print,
+  .invoice-print * {
+    visibility: visible;
+  }
+
+  /* Position invoice at top of page */
+  .invoice-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  /* Hide modal backdrop and other modal elements */
+  .modal-backdrop,
+  .modal-header,
+  .modal-footer {
+    display: none !important;
+  }
+
+  /* Remove modal styling for print */
+  .modal-dialog {
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .modal-content {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Ensure proper page breaks */
+  @page {
+    margin: 1cm;
+  }
 }

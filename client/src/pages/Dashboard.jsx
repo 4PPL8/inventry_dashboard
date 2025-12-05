@@ -38,43 +38,67 @@ const Dashboard = () => {
             {/* KPI Cards */}
             <Row className="g-4 mb-5">
                 <Col md={3}>
-                    <div className="p-4 h-100" style={{
-                        backgroundColor: 'var(--bg-card)',
-                        borderRadius: '12px',
-                        boxShadow: 'var(--card-shadow)',
-                        border: 'var(--glass-border)'
-                    }}>
-                        <StatsCard title="Monthly Revenue" value={data.kpi.monthlyRevenue} />
+                    <div className="h-100" style={{
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                    }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-4px)';
+                            e.currentTarget.style.boxShadow = 'var(--card-shadow-hover)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = 'var(--card-shadow)';
+                        }}>
+                        <StatsCard title="Monthly Revenue" value={data.kpi.monthlyRevenue} gradient="var(--gradient-info)" />
                     </div>
                 </Col>
                 <Col md={3}>
-                    <div className="p-4 h-100" style={{
-                        backgroundColor: 'var(--bg-card)',
-                        borderRadius: '12px',
-                        boxShadow: 'var(--card-shadow)',
-                        border: 'var(--glass-border)'
-                    }}>
-                        <StatsCard title="Monthly Profit" value={data.kpi.monthlyProfit} />
+                    <div className="h-100" style={{
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                    }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-4px)';
+                            e.currentTarget.style.boxShadow = 'var(--card-shadow-hover)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = 'var(--card-shadow)';
+                        }}>
+                        <StatsCard title="Monthly Profit" value={data.kpi.monthlyProfit} gradient="var(--gradient-success)" />
                     </div>
                 </Col>
                 <Col md={3}>
-                    <div className="p-4 h-100" style={{
-                        backgroundColor: 'var(--bg-card)',
-                        borderRadius: '12px',
-                        boxShadow: 'var(--card-shadow)',
-                        border: 'var(--glass-border)'
-                    }}>
-                        <StatsCard title="Monthly Expenses" value={data.kpi.monthlyExpenses} />
+                    <div className="h-100" style={{
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                    }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-4px)';
+                            e.currentTarget.style.boxShadow = 'var(--card-shadow-hover)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = 'var(--card-shadow)';
+                        }}>
+                        <StatsCard title="Monthly Expenses" value={data.kpi.monthlyExpenses} gradient="var(--gradient-warning)" />
                     </div>
                 </Col>
                 <Col md={3}>
-                    <div className="p-4 h-100" style={{
-                        backgroundColor: 'var(--bg-card)',
-                        borderRadius: '12px',
-                        boxShadow: 'var(--card-shadow)',
-                        border: 'var(--glass-border)'
-                    }}>
-                        <StatsCard title="Monthly Loss" value={data.kpi.monthlyLoss} />
+                    <div className="h-100" style={{
+                        transition: 'all 0.3s ease',
+                        cursor: 'pointer'
+                    }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-4px)';
+                            e.currentTarget.style.boxShadow = 'var(--card-shadow-hover)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = 'var(--card-shadow)';
+                        }}>
+                        <StatsCard title="Monthly Loss" value={data.kpi.monthlyLoss} gradient="var(--gradient-danger)" />
                     </div>
                 </Col>
             </Row>
@@ -84,15 +108,27 @@ const Dashboard = () => {
                 <Col md={6} className="d-flex justify-content-center">
                     <div className="p-4 w-100" style={{
                         backgroundColor: 'var(--bg-card)',
-                        borderRadius: '12px',
+                        borderRadius: 'var(--radius-md)',
                         boxShadow: 'var(--card-shadow)',
                         border: 'var(--glass-border)',
                         height: '350px',
                         maxWidth: '550px',
                         display: 'flex',
-                        flexDirection: 'column'
-                    }}>
-                        <h6 className="text-secondary text-uppercase mb-3 text-center" style={{ letterSpacing: '1px', fontSize: '0.8rem' }}>Revenue Overview</h6>
+                        flexDirection: 'column',
+                        transition: 'all 0.3s ease'
+                    }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.boxShadow = 'var(--card-shadow-hover)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.boxShadow = 'var(--card-shadow)';
+                        }}>
+                        <h6 className="text-uppercase mb-3 text-center" style={{
+                            letterSpacing: '1px',
+                            fontSize: '0.8rem',
+                            color: 'var(--text-secondary)',
+                            fontWeight: 600
+                        }}>Revenue Overview</h6>
                         <div style={{ flex: 1, width: '100%', minHeight: 0 }}>
                             <RevenueChart data={data.charts.revenueTrend} />
                         </div>
@@ -101,15 +137,27 @@ const Dashboard = () => {
                 <Col md={6} className="d-flex justify-content-center">
                     <div className="p-4 w-100" style={{
                         backgroundColor: 'var(--bg-card)',
-                        borderRadius: '12px',
+                        borderRadius: 'var(--radius-md)',
                         boxShadow: 'var(--card-shadow)',
                         border: 'var(--glass-border)',
                         height: '350px',
                         maxWidth: '550px',
                         display: 'flex',
-                        flexDirection: 'column'
-                    }}>
-                        <h6 className="text-secondary text-uppercase mb-3 text-center" style={{ letterSpacing: '1px', fontSize: '0.8rem' }}>Stock Status</h6>
+                        flexDirection: 'column',
+                        transition: 'all 0.3s ease'
+                    }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.style.boxShadow = 'var(--card-shadow-hover)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.style.boxShadow = 'var(--card-shadow)';
+                        }}>
+                        <h6 className="text-uppercase mb-3 text-center" style={{
+                            letterSpacing: '1px',
+                            fontSize: '0.8rem',
+                            color: 'var(--text-secondary)',
+                            fontWeight: 600
+                        }}>Stock Status</h6>
                         <div style={{ flex: 1, width: '100%', minHeight: 0 }}>
                             <StockChart data={data.charts.stockOverview} />
                         </div>

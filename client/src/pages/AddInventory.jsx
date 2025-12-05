@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Alert, Row, Col, Card } from 'react-bootstrap';
 import { getProducts, createTransaction, addProduct, updateProduct } from '../services/api';
+import { Plus, ShoppingBag, RotateCcw, CornerUpLeft } from 'lucide-react';
 
 const AddInventory = () => {
     const [activeTab, setActiveTab] = useState('add');
@@ -67,169 +68,266 @@ const AddInventory = () => {
     };
 
     const tabs = [
-        { key: 'add', label: 'Add New Stock' },
-        { key: 'purchase', label: 'Purchase' },
-        { key: 'return_supplier', label: 'Return to Supplier' },
-        { key: 'return_customer', label: 'Return from Customer' }
+        { key: 'add', label: 'Add New Stock', icon: Plus, gradient: 'var(--gradient-info)' },
+        { key: 'purchase', label: 'Purchase', icon: ShoppingBag, gradient: 'var(--gradient-success)' },
+        { key: 'return_supplier', label: 'Return to Supplier', icon: RotateCcw, gradient: 'var(--gradient-warning)' },
+        { key: 'return_customer', label: 'Return from Customer', icon: CornerUpLeft, gradient: 'var(--gradient-danger)' }
     ];
 
     return (
-        <Container>
-            <h2 style={{ marginBottom: '2rem', color: 'var(--text-primary)' }}>Inventory Management</h2>
+        <Container fluid className="px-4">
+            <div className="mb-5">
+                <h2 style={{
+                    marginBottom: '0.5rem',
+                    fontSize: '2rem',
+                    fontWeight: '700',
+                    color: 'var(--text-primary)',
+                    letterSpacing: '-0.5px'
+                }}>Inventory Management</h2>
+                <p style={{
+                    color: 'var(--text-secondary)',
+                    fontSize: '0.95rem',
+                    marginBottom: '2rem'
+                }}>Manage your stock, purchases, and returns</p>
+            </div>
 
-            {message && <Alert variant="success" onClose={() => setMessage(null)} dismissible>{message}</Alert>}
-            {error && <Alert variant="danger" onClose={() => setError(null)} dismissible>{error}</Alert>}
+            {message && (
+                <Alert
+                    variant="success"
+                    onClose={() => setMessage(null)}
+                    dismissible
+                    style={{
+                        borderRadius: 'var(--radius-md)',
+                        border: 'none',
+                        background: 'var(--gradient-success)',
+                        color: '#ffffff',
+                        fontWeight: '500',
+                        marginBottom: '1.5rem'
+                    }}
+                >
+                    {message}
+                </Alert>
+            )}
+            {error && (
+                <Alert
+                    variant="danger"
+                    onClose={() => setError(null)}
+                    dismissible
+                    style={{
+                        borderRadius: 'var(--radius-md)',
+                        border: 'none',
+                        background: 'var(--gradient-danger)',
+                        color: '#ffffff',
+                        fontWeight: '500',
+                        marginBottom: '1.5rem'
+                    }}
+                >
+                    {error}
+                </Alert>
+            )}
 
-            {/* Custom Tab Buttons */}
+            {/* Modern Tab Buttons */}
             <div style={{
                 marginBottom: '2rem',
-                display: 'flex',
-                gap: '0.5rem',
-                flexWrap: 'wrap',
-                borderBottom: '1px solid var(--border-color)',
-                paddingBottom: '0.5rem'
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: '1rem'
             }}>
-                {tabs.map(tab => (
-                    <button
-                        key={tab.key}
-                        onClick={() => setActiveTab(tab.key)}
-                        style={{
-                            padding: '0.75rem 1.5rem',
-                            backgroundColor: activeTab === tab.key ? 'var(--text-primary)' : 'transparent',
-                            color: activeTab === tab.key ? 'var(--bg-dark)' : 'var(--text-primary)',
-                            border: activeTab === tab.key ? 'none' : '1px solid var(--border-color)',
-                            borderRadius: '6px',
-                            cursor: 'pointer',
-                            fontWeight: activeTab === tab.key ? '600' : '400',
-                            fontSize: '0.9rem',
-                            transition: 'all 0.2s ease',
-                            whiteSpace: 'nowrap',
-                            flex: '1 1 auto',
-                            minWidth: 'fit-content'
-                        }}
-                        onMouseEnter={(e) => {
-                            if (activeTab !== tab.key) {
-                                e.currentTarget.style.backgroundColor = 'var(--bg-card)';
-                            }
-                        }}
-                        onMouseLeave={(e) => {
-                            if (activeTab !== tab.key) {
-                                e.currentTarget.style.backgroundColor = 'transparent';
-                            }
-                        }}
-                    >
-                        {tab.label}
-                    </button>
-                ))}
+                {tabs.map(tab => {
+                    const IconComponent = tab.icon;
+                    return (
+                        <button
+                            key={tab.key}
+                            onClick={() => setActiveTab(tab.key)}
+                            style={{
+                                padding: '1rem 1.5rem',
+                                background: activeTab === tab.key ? tab.gradient : 'var(--bg-card)',
+                                color: activeTab === tab.key ? '#ffffff' : 'var(--text-primary)',
+                                border: activeTab === tab.key ? 'none' : 'var(--glass-border)',
+                                borderRadius: 'var(--radius-md)',
+                                cursor: 'pointer',
+                                fontWeight: activeTab === tab.key ? '600' : '500',
+                                fontSize: '0.95rem',
+                                transition: 'all 0.3s ease',
+                                boxShadow: activeTab === tab.key ? '0 4px 15px rgba(0, 0, 0, 0.15)' : 'var(--card-shadow)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '0.5rem'
+                            }}
+                            onMouseEnter={(e) => {
+                                if (activeTab !== tab.key) {
+                                    e.currentTarget.style.transform = 'translateY(-2px)';
+                                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.1)';
+                                }
+                            }}
+                            onMouseLeave={(e) => {
+                                if (activeTab !== tab.key) {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'var(--card-shadow)';
+                                }
+                            }}
+                        >
+                            <IconComponent size={20} strokeWidth={2} />
+                            <span>{tab.label}</span>
+                        </button>
+                    );
+                })}
             </div>
 
             {/* Tab Content */}
-            <div>
+            <div style={{ animation: 'fadeIn 0.4s ease' }}>
                 {activeTab === 'add' && (
                     <Card style={{
                         backgroundColor: 'var(--bg-card)',
                         border: 'var(--glass-border)',
-                        borderRadius: '12px',
-                        padding: '2rem'
+                        borderRadius: 'var(--radius-md)',
+                        padding: '2rem',
+                        boxShadow: 'var(--card-shadow)'
                     }}>
-                        <h4 style={{ marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Add New Product</h4>
+                        <h4 style={{
+                            marginBottom: '1.5rem',
+                            color: 'var(--text-primary)',
+                            fontSize: '1.5rem',
+                            fontWeight: '600'
+                        }}>Add New Product</h4>
                         <Form onSubmit={handleAddProduct}>
-                            <Row>
+                            <Row className="g-3">
                                 <Col xs={12} md={6}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Name</Form.Label>
+                                    <Form.Group>
+                                        <Form.Label style={{
+                                            color: 'var(--text-secondary)',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '500',
+                                            marginBottom: '0.5rem'
+                                        }}>Product Name</Form.Label>
                                         <Form.Control
                                             type="text"
                                             value={newProduct.name}
                                             onChange={e => setNewProduct({ ...newProduct, name: e.target.value })}
                                             required
+                                            placeholder="Enter product name"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
-                                                color: 'var(--text-primary)'
+                                                color: 'var(--text-primary)',
+                                                padding: '0.75rem 1rem',
+                                                fontSize: '0.95rem'
                                             }}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={12} md={6}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Category (ID)</Form.Label>
+                                    <Form.Group>
+                                        <Form.Label style={{
+                                            color: 'var(--text-secondary)',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '500',
+                                            marginBottom: '0.5rem'
+                                        }}>Category (ID)</Form.Label>
                                         <Form.Control
                                             type="text"
                                             value={newProduct.category}
                                             onChange={e => setNewProduct({ ...newProduct, category: e.target.value })}
                                             required
+                                            placeholder="Enter category ID"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
-                                                color: 'var(--text-primary)'
+                                                color: 'var(--text-primary)',
+                                                padding: '0.75rem 1rem',
+                                                fontSize: '0.95rem'
                                             }}
                                         />
                                     </Form.Group>
                                 </Col>
                             </Row>
-                            <Row>
+                            <Row className="g-3 mt-2">
                                 <Col xs={12} sm={4}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Cost Price</Form.Label>
+                                    <Form.Group>
+                                        <Form.Label style={{
+                                            color: 'var(--text-secondary)',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '500',
+                                            marginBottom: '0.5rem'
+                                        }}>Cost Price</Form.Label>
                                         <Form.Control
                                             type="number"
                                             value={newProduct.costPrice}
                                             onChange={e => setNewProduct({ ...newProduct, costPrice: e.target.value })}
                                             required
+                                            placeholder="0.00"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
-                                                color: 'var(--text-primary)'
+                                                color: 'var(--text-primary)',
+                                                padding: '0.75rem 1rem',
+                                                fontSize: '0.95rem'
                                             }}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={12} sm={4}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Selling Price</Form.Label>
+                                    <Form.Group>
+                                        <Form.Label style={{
+                                            color: 'var(--text-secondary)',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '500',
+                                            marginBottom: '0.5rem'
+                                        }}>Selling Price</Form.Label>
                                         <Form.Control
                                             type="number"
                                             value={newProduct.sellingPrice}
                                             onChange={e => setNewProduct({ ...newProduct, sellingPrice: e.target.value })}
                                             required
+                                            placeholder="0.00"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
-                                                color: 'var(--text-primary)'
+                                                color: 'var(--text-primary)',
+                                                padding: '0.75rem 1rem',
+                                                fontSize: '0.95rem'
                                             }}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={12} sm={4}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Initial Quantity</Form.Label>
+                                    <Form.Group>
+                                        <Form.Label style={{
+                                            color: 'var(--text-secondary)',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '500',
+                                            marginBottom: '0.5rem'
+                                        }}>Initial Quantity</Form.Label>
                                         <Form.Control
                                             type="number"
                                             value={newProduct.quantity}
                                             onChange={e => setNewProduct({ ...newProduct, quantity: e.target.value })}
                                             required
+                                            placeholder="0"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
-                                                color: 'var(--text-primary)'
+                                                color: 'var(--text-primary)',
+                                                padding: '0.75rem 1rem',
+                                                fontSize: '0.95rem'
                                             }}
                                         />
                                     </Form.Group>
                                 </Col>
                             </Row>
-                            <Button
-                                type="submit"
-                                style={{
-                                    backgroundColor: 'var(--text-primary)',
-                                    color: 'var(--bg-dark)',
-                                    border: 'none',
-                                    padding: '0.75rem 2rem',
-                                    fontWeight: '500'
-                                }}
-                            >
-                                Add Product
-                            </Button>
+                            <div className="mt-4">
+                                <Button
+                                    type="submit"
+                                    style={{
+                                        padding: '0.75rem 2rem',
+                                        fontWeight: '500',
+                                        fontSize: '0.95rem'
+                                    }}
+                                >
+                                    Add Product
+                                </Button>
+                            </div>
                         </Form>
                     </Card>
                 )}
@@ -238,13 +336,24 @@ const AddInventory = () => {
                     <Card style={{
                         backgroundColor: 'var(--bg-card)',
                         border: 'var(--glass-border)',
-                        borderRadius: '12px',
-                        padding: '2rem'
+                        borderRadius: 'var(--radius-md)',
+                        padding: '2rem',
+                        boxShadow: 'var(--card-shadow)'
                     }}>
-                        <h4 style={{ marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Restock Existing Product</h4>
+                        <h4 style={{
+                            marginBottom: '1.5rem',
+                            color: 'var(--text-primary)',
+                            fontSize: '1.5rem',
+                            fontWeight: '600'
+                        }}>Restock Existing Product</h4>
                         <Form onSubmit={(e) => handleTransaction(e, 'purchase')}>
                             <Form.Group className="mb-3">
-                                <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Product</Form.Label>
+                                <Form.Label style={{
+                                    color: 'var(--text-secondary)',
+                                    fontSize: '0.875rem',
+                                    fontWeight: '500',
+                                    marginBottom: '0.5rem'
+                                }}>Product</Form.Label>
                                 <Form.Select
                                     value={transaction.product}
                                     onChange={e => setTransaction({ ...transaction, product: e.target.value })}
@@ -252,74 +361,100 @@ const AddInventory = () => {
                                     style={{
                                         backgroundColor: 'var(--bg-dark)',
                                         border: 'var(--glass-border)',
-                                        color: 'var(--text-primary)'
+                                        color: 'var(--text-primary)',
+                                        padding: '0.75rem 1rem',
+                                        fontSize: '0.95rem'
                                     }}
                                 >
                                     <option value="">Select Product</option>
                                     {products.map(p => <option key={p._id} value={p._id}>{p.name}</option>)}
                                 </Form.Select>
                             </Form.Group>
-                            <Row>
+                            <Row className="g-3">
                                 <Col xs={12} sm={4}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Quantity</Form.Label>
+                                    <Form.Group>
+                                        <Form.Label style={{
+                                            color: 'var(--text-secondary)',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '500',
+                                            marginBottom: '0.5rem'
+                                        }}>Quantity</Form.Label>
                                         <Form.Control
                                             type="number"
                                             value={transaction.quantity}
                                             onChange={e => setTransaction({ ...transaction, quantity: e.target.value })}
                                             required
+                                            placeholder="0"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
-                                                color: 'var(--text-primary)'
+                                                color: 'var(--text-primary)',
+                                                padding: '0.75rem 1rem',
+                                                fontSize: '0.95rem'
                                             }}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={12} sm={4}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Cost Price (Per Unit)</Form.Label>
+                                    <Form.Group>
+                                        <Form.Label style={{
+                                            color: 'var(--text-secondary)',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '500',
+                                            marginBottom: '0.5rem'
+                                        }}>Cost Price (Per Unit)</Form.Label>
                                         <Form.Control
                                             type="number"
                                             value={transaction.price}
                                             onChange={e => setTransaction({ ...transaction, price: e.target.value })}
                                             required
+                                            placeholder="0.00"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
-                                                color: 'var(--text-primary)'
+                                                color: 'var(--text-primary)',
+                                                padding: '0.75rem 1rem',
+                                                fontSize: '0.95rem'
                                             }}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={12} sm={4}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Supplier Name</Form.Label>
+                                    <Form.Group>
+                                        <Form.Label style={{
+                                            color: 'var(--text-secondary)',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '500',
+                                            marginBottom: '0.5rem'
+                                        }}>Supplier Name</Form.Label>
                                         <Form.Control
                                             type="text"
                                             value={transaction.partyName}
                                             onChange={e => setTransaction({ ...transaction, partyName: e.target.value })}
+                                            placeholder="Enter supplier name"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
-                                                color: 'var(--text-primary)'
+                                                color: 'var(--text-primary)',
+                                                padding: '0.75rem 1rem',
+                                                fontSize: '0.95rem'
                                             }}
                                         />
                                     </Form.Group>
                                 </Col>
                             </Row>
-                            <Button
-                                type="submit"
-                                style={{
-                                    backgroundColor: 'var(--text-primary)',
-                                    color: 'var(--bg-dark)',
-                                    border: 'none',
-                                    padding: '0.75rem 2rem',
-                                    fontWeight: '500'
-                                }}
-                            >
-                                Record Purchase
-                            </Button>
+                            <div className="mt-4">
+                                <Button
+                                    type="submit"
+                                    style={{
+                                        padding: '0.75rem 2rem',
+                                        fontWeight: '500',
+                                        fontSize: '0.95rem'
+                                    }}
+                                >
+                                    Record Purchase
+                                </Button>
+                            </div>
                         </Form>
                     </Card>
                 )}
@@ -328,13 +463,24 @@ const AddInventory = () => {
                     <Card style={{
                         backgroundColor: 'var(--bg-card)',
                         border: 'var(--glass-border)',
-                        borderRadius: '12px',
-                        padding: '2rem'
+                        borderRadius: 'var(--radius-md)',
+                        padding: '2rem',
+                        boxShadow: 'var(--card-shadow)'
                     }}>
-                        <h4 style={{ marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Return to Supplier</h4>
+                        <h4 style={{
+                            marginBottom: '1.5rem',
+                            color: 'var(--text-primary)',
+                            fontSize: '1.5rem',
+                            fontWeight: '600'
+                        }}>Return to Supplier</h4>
                         <Form onSubmit={(e) => handleTransaction(e, 'return_supplier')}>
                             <Form.Group className="mb-3">
-                                <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Product</Form.Label>
+                                <Form.Label style={{
+                                    color: 'var(--text-secondary)',
+                                    fontSize: '0.875rem',
+                                    fontWeight: '500',
+                                    marginBottom: '0.5rem'
+                                }}>Product</Form.Label>
                                 <Form.Select
                                     value={transaction.product}
                                     onChange={e => setTransaction({ ...transaction, product: e.target.value })}
@@ -342,72 +488,98 @@ const AddInventory = () => {
                                     style={{
                                         backgroundColor: 'var(--bg-dark)',
                                         border: 'var(--glass-border)',
-                                        color: 'var(--text-primary)'
+                                        color: 'var(--text-primary)',
+                                        padding: '0.75rem 1rem',
+                                        fontSize: '0.95rem'
                                     }}
                                 >
                                     <option value="">Select Product</option>
                                     {products.map(p => <option key={p._id} value={p._id}>{p.name}</option>)}
                                 </Form.Select>
                             </Form.Group>
-                            <Row>
+                            <Row className="g-3">
                                 <Col xs={12} md={6}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Quantity</Form.Label>
+                                    <Form.Group>
+                                        <Form.Label style={{
+                                            color: 'var(--text-secondary)',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '500',
+                                            marginBottom: '0.5rem'
+                                        }}>Quantity</Form.Label>
                                         <Form.Control
                                             type="number"
                                             value={transaction.quantity}
                                             onChange={e => setTransaction({ ...transaction, quantity: e.target.value })}
                                             required
+                                            placeholder="0"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
-                                                color: 'var(--text-primary)'
+                                                color: 'var(--text-primary)',
+                                                padding: '0.75rem 1rem',
+                                                fontSize: '0.95rem'
                                             }}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={12} md={6}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Supplier Name</Form.Label>
+                                    <Form.Group>
+                                        <Form.Label style={{
+                                            color: 'var(--text-secondary)',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '500',
+                                            marginBottom: '0.5rem'
+                                        }}>Supplier Name</Form.Label>
                                         <Form.Control
                                             type="text"
                                             value={transaction.partyName}
                                             onChange={e => setTransaction({ ...transaction, partyName: e.target.value })}
+                                            placeholder="Enter supplier name"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
-                                                color: 'var(--text-primary)'
+                                                color: 'var(--text-primary)',
+                                                padding: '0.75rem 1rem',
+                                                fontSize: '0.95rem'
                                             }}
                                         />
                                     </Form.Group>
                                 </Col>
                             </Row>
-                            <Form.Group className="mb-3">
-                                <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Reason / Notes</Form.Label>
+                            <Form.Group className="mt-3">
+                                <Form.Label style={{
+                                    color: 'var(--text-secondary)',
+                                    fontSize: '0.875rem',
+                                    fontWeight: '500',
+                                    marginBottom: '0.5rem'
+                                }}>Reason / Notes</Form.Label>
                                 <Form.Control
                                     as="textarea"
                                     rows={3}
                                     value={transaction.notes}
                                     onChange={e => setTransaction({ ...transaction, notes: e.target.value })}
+                                    placeholder="Enter reason for return..."
                                     style={{
                                         backgroundColor: 'var(--bg-dark)',
                                         border: 'var(--glass-border)',
-                                        color: 'var(--text-primary)'
+                                        color: 'var(--text-primary)',
+                                        padding: '0.75rem 1rem',
+                                        fontSize: '0.95rem'
                                     }}
                                 />
                             </Form.Group>
-                            <Button
-                                type="submit"
-                                style={{
-                                    backgroundColor: 'var(--text-primary)',
-                                    color: 'var(--bg-dark)',
-                                    border: 'none',
-                                    padding: '0.75rem 2rem',
-                                    fontWeight: '500'
-                                }}
-                            >
-                                Record Return
-                            </Button>
+                            <div className="mt-4">
+                                <Button
+                                    type="submit"
+                                    style={{
+                                        padding: '0.75rem 2rem',
+                                        fontWeight: '500',
+                                        fontSize: '0.95rem'
+                                    }}
+                                >
+                                    Record Return
+                                </Button>
+                            </div>
                         </Form>
                     </Card>
                 )}
@@ -416,13 +588,24 @@ const AddInventory = () => {
                     <Card style={{
                         backgroundColor: 'var(--bg-card)',
                         border: 'var(--glass-border)',
-                        borderRadius: '12px',
-                        padding: '2rem'
+                        borderRadius: 'var(--radius-md)',
+                        padding: '2rem',
+                        boxShadow: 'var(--card-shadow)'
                     }}>
-                        <h4 style={{ marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Return from Customer</h4>
+                        <h4 style={{
+                            marginBottom: '1.5rem',
+                            color: 'var(--text-primary)',
+                            fontSize: '1.5rem',
+                            fontWeight: '600'
+                        }}>Return from Customer</h4>
                         <Form onSubmit={(e) => handleTransaction(e, 'return_customer')}>
                             <Form.Group className="mb-3">
-                                <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Product</Form.Label>
+                                <Form.Label style={{
+                                    color: 'var(--text-secondary)',
+                                    fontSize: '0.875rem',
+                                    fontWeight: '500',
+                                    marginBottom: '0.5rem'
+                                }}>Product</Form.Label>
                                 <Form.Select
                                     value={transaction.product}
                                     onChange={e => setTransaction({ ...transaction, product: e.target.value })}
@@ -430,72 +613,98 @@ const AddInventory = () => {
                                     style={{
                                         backgroundColor: 'var(--bg-dark)',
                                         border: 'var(--glass-border)',
-                                        color: 'var(--text-primary)'
+                                        color: 'var(--text-primary)',
+                                        padding: '0.75rem 1rem',
+                                        fontSize: '0.95rem'
                                     }}
                                 >
                                     <option value="">Select Product</option>
                                     {products.map(p => <option key={p._id} value={p._id}>{p.name}</option>)}
                                 </Form.Select>
                             </Form.Group>
-                            <Row>
+                            <Row className="g-3">
                                 <Col xs={12} md={6}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Quantity</Form.Label>
+                                    <Form.Group>
+                                        <Form.Label style={{
+                                            color: 'var(--text-secondary)',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '500',
+                                            marginBottom: '0.5rem'
+                                        }}>Quantity</Form.Label>
                                         <Form.Control
                                             type="number"
                                             value={transaction.quantity}
                                             onChange={e => setTransaction({ ...transaction, quantity: e.target.value })}
                                             required
+                                            placeholder="0"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
-                                                color: 'var(--text-primary)'
+                                                color: 'var(--text-primary)',
+                                                padding: '0.75rem 1rem',
+                                                fontSize: '0.95rem'
                                             }}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col xs={12} md={6}>
-                                    <Form.Group className="mb-3">
-                                        <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Customer Name</Form.Label>
+                                    <Form.Group>
+                                        <Form.Label style={{
+                                            color: 'var(--text-secondary)',
+                                            fontSize: '0.875rem',
+                                            fontWeight: '500',
+                                            marginBottom: '0.5rem'
+                                        }}>Customer Name</Form.Label>
                                         <Form.Control
                                             type="text"
                                             value={transaction.partyName}
                                             onChange={e => setTransaction({ ...transaction, partyName: e.target.value })}
+                                            placeholder="Enter customer name"
                                             style={{
                                                 backgroundColor: 'var(--bg-dark)',
                                                 border: 'var(--glass-border)',
-                                                color: 'var(--text-primary)'
+                                                color: 'var(--text-primary)',
+                                                padding: '0.75rem 1rem',
+                                                fontSize: '0.95rem'
                                             }}
                                         />
                                     </Form.Group>
                                 </Col>
                             </Row>
-                            <Form.Group className="mb-3">
-                                <Form.Label style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>Reason / Notes</Form.Label>
+                            <Form.Group className="mt-3">
+                                <Form.Label style={{
+                                    color: 'var(--text-secondary)',
+                                    fontSize: '0.875rem',
+                                    fontWeight: '500',
+                                    marginBottom: '0.5rem'
+                                }}>Reason / Notes</Form.Label>
                                 <Form.Control
                                     as="textarea"
                                     rows={3}
                                     value={transaction.notes}
                                     onChange={e => setTransaction({ ...transaction, notes: e.target.value })}
+                                    placeholder="Enter reason for return..."
                                     style={{
                                         backgroundColor: 'var(--bg-dark)',
                                         border: 'var(--glass-border)',
-                                        color: 'var(--text-primary)'
+                                        color: 'var(--text-primary)',
+                                        padding: '0.75rem 1rem',
+                                        fontSize: '0.95rem'
                                     }}
                                 />
                             </Form.Group>
-                            <Button
-                                type="submit"
-                                style={{
-                                    backgroundColor: 'var(--text-primary)',
-                                    color: 'var(--bg-dark)',
-                                    border: 'none',
-                                    padding: '0.75rem 2rem',
-                                    fontWeight: '500'
-                                }}
-                            >
-                                Record Return
-                            </Button>
+                            <div className="mt-4">
+                                <Button
+                                    type="submit"
+                                    style={{
+                                        padding: '0.75rem 2rem',
+                                        fontWeight: '500',
+                                        fontSize: '0.95rem'
+                                    }}
+                                >
+                                    Record Return
+                                </Button>
+                            </div>
                         </Form>
                     </Card>
                 )}
