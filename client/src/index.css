@@ -472,13 +472,35 @@ select.form-control {
   position: relative !important;
 }
 
-/* Ensure dropdowns always open downward */
+/* Dropdown Menu Styling */
 .dropdown-menu {
   top: 100% !important;
   bottom: auto !important;
   transform: none !important;
   margin-top: 0.125rem !important;
   z-index: 1050 !important;
+  background-color: var(--bg-card) !important;
+  border: var(--glass-border) !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+  padding: 0.5rem 0 !important;
+}
+
+.dropdown-item {
+  color: var(--text-primary) !important;
+  padding: 0.5rem 1rem !important;
+  background-color: transparent !important;
+  transition: all 0.2s ease !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  color: var(--accent-primary) !important;
+}
+
+.dropdown-item:active {
+  background-color: rgba(59, 130, 246, 0.2) !important;
 }
 
 /* Fix for Bootstrap form-select dropdowns */
@@ -487,6 +509,38 @@ select.form-control {
   appearance: auto !important;
   -webkit-appearance: menulist !important;
   -moz-appearance: menulist !important;
+  background-color: var(--bg-dark) !important;
+  color: var(--text-primary) !important;
+  border: var(--glass-border) !important;
+}
+
+select.form-select:focus,
+select.form-control:focus {
+  border-color: var(--accent-primary) !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
+}
+
+/* Select dropdown options */
+select option {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  padding: 0.5rem !important;
+}
+
+select option:hover {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+select option:checked,
+select option:focus,
+select option[selected] {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  color: var(--text-primary) !important;
+}
+
+select option:disabled {
+  color: var(--text-secondary) !important;
+  opacity: 0.5 !important;
 }
 
 /* Ensure parent containers don't clip dropdowns */

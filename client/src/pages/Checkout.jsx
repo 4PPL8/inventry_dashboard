@@ -94,49 +94,9 @@ const Checkout = () => {
 
     return (
         <Container className="page-transition-enter">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                <h2 style={{ color: 'var(--text-primary)', fontWeight: '600', margin: 0 }}>Checkout / Point of Sale</h2>
-
-                {/* Running Total Display */}
-                <div style={{
-                    background: 'var(--gradient-info)',
-                    padding: '1rem 2rem',
-                    borderRadius: 'var(--radius-md)',
-                    boxShadow: '0 4px 15px rgba(59, 130, 246, 0.3)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    minWidth: '200px',
-                    position: 'relative'
-                }}>
-                    {cart.length > 0 && (
-                        <div style={{
-                            position: 'absolute',
-                            top: '-8px',
-                            right: '-8px',
-                            background: 'var(--danger)',
-                            color: '#ffffff',
-                            borderRadius: '50%',
-                            width: '28px',
-                            height: '28px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '0.75rem',
-                            fontWeight: '700',
-                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)'
-                        }}>
-                            {cart.length}
-                        </div>
-                    )}
-                    <div style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '0.85rem', fontWeight: '500', marginBottom: '0.25rem' }}>
-                        Running Total
-                    </div>
-                    <div style={{ color: '#ffffff', fontSize: '1.75rem', fontWeight: '700', letterSpacing: '-0.5px' }}>
-                        PKR {calculateTotal().toLocaleString()}
-                    </div>
-                </div>
-            </div>
+            <h2 style={{ marginBottom: '2rem', color: 'var(--text-primary)', fontWeight: '600' }}>
+                Checkout / Point of Sale
+            </h2>
 
             {message && <Alert variant="warning" onClose={() => setMessage(null)} dismissible>{message}</Alert>}
 
